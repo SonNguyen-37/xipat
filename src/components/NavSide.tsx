@@ -4,7 +4,7 @@ import "./style.scss";
 export default function NavSide() {
   return (
     <div>
-      <NavLink to="/">Dashboard</NavLink>
+      <NavLink to="/dashboard">Dashboard</NavLink>
       <br />
       <NavLink to="/post-management">Posts Management</NavLink>
       <br />

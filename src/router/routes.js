@@ -1,15 +1,21 @@
+import { Fragment } from "react";
 import Dashboard from "../pages/Dashboard";
 import Posts from "../pages/Posts";
 import Settings from "../pages/Settings";
 
 
 const publicRouter = [
+
     {
-        path:'/',
+        path: '/',
+        element: Fragment
+    },
+    {
+        path: '/dashboard/*',
         element: Dashboard
     },
     {
-        path:'/post-management',
+        path: '/post-management',
         element: Posts
     },
     {
@@ -17,4 +23,4 @@ const publicRouter = [
         element: Settings
     }
 ]
-export {publicRouter}
+export { publicRouter }

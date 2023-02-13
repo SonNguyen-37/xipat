@@ -1,9 +1,118 @@
-function Settings() {
+import React from "react";
+import { Button, Col, Form, Input, Select, DatePicker } from "antd";
+import type { FormInstance } from "antd/es/form";
+
+const { Option } = Select;
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
+
+const Settings: React.FC = () => {
+  const formRef = React.useRef<FormInstance>(null);
+
+  const onGenderChange = (value: string) => {
+    switch (value) {
+      case "male":
+        formRef.current?.setFieldsValue({ note: "Hi, man!" });
+        break;
+      case "female":
+        formRef.current?.setFieldsValue({ note: "Hi, lady!" });
+        break;
+      case "other":
+        formRef.current?.setFieldsValue({ note: "Hi there!" });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const onFinish = (values: any) => {
+    console.log(values);
+  };
+
+  const onReset = () => {
+    formRef.current?.resetFields();
+  };
+
+  const onFill = () => {
+    formRef.current?.setFieldsValue({ note: "Hello world!", gender: "male" });
+  };
+
   return (
-    <div>
-      <h1>This is the SETTING page</h1>
-    </div>
+    <Form
+      {...layout}
+      ref={formRef}
+      name="control-ref"
+      onFinish={onFinish}
+      style={{ maxWidth: 600 }}
+    >
+      <Form.Item name="note" label="Title" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+
+      <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+
+      <Col span={24} style={{ display: "flex" }}>
+        <Form.Item name="colors">
+          <Input value={formRef.current?.getFieldValue("colors")} />
+        </Form.Item>
+        <input
+          type="color"
+          id="favcolor"
+          name="favcolor"
+          onChange={(e) =>
+            formRef.current?.setFieldsValue({
+              colors: e.target.value,
+            })
+          }
+        />
+      </Col>
+
+      <DatePicker></DatePicker>
+
+      {/* <Form.Item name="note" label="Note" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item> */}
+
+      <Form.Item
+        noStyle
+        shouldUpdate={(prevValues, currentValues) =>
+          prevValues.gender !== currentValues.gender
+        }
+      >
+        {({ getFieldValue }) =>
+          getFieldValue("gender") === "other" ? (
+            <Form.Item
+              name="customizeGender"
+              label="Customize Gender"
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+          ) : null
+        }
+      </Form.Item>
+      <Form.Item {...tailLayout}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+        <Button htmlType="button" onClick={onReset}>
+          Reset
+        </Button>
+        <Button type="link" htmlType="button" onClick={onFill}>
+          Fill form
+        </Button>
+      </Form.Item>
+    </Form>
   );
-}
+};
 
 export default Settings;
